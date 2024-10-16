@@ -1,7 +1,7 @@
 const VoterService = require("../../services/voter");
 const Validator = require("../../utils/validators");
 const { SIGNUP, SERVER_ERROR } = require("../../utils/constants");
-const bcrypt = require('bcrypt')
+
 
 const signup = async (req, res) => {
   try {
@@ -23,10 +23,9 @@ const signup = async (req, res) => {
     if (!isNewUserEntry) {
       return res.status(400).json({ message: authAttemptError });
     }
-    const hashedPassword = bcrypt.hashSync(password, 4)
     const voterService = new VoterService({
       email,
-      password: hashedPassword,
+      password,
       name,
     });
     const { voter: newVoter, message } = await voterService.createVoter();
